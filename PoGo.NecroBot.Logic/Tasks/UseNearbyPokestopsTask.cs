@@ -58,8 +58,6 @@ namespace PoGo.NecroBot.Logic.Tasks
                     });
                 }
 
-                await RecycleItemsTask.Execute(session, cancellationToken);
-
                 if (session.LogicSettings.TransferDuplicatePokemon)
                 {
                     await TransferDuplicatePokemonTask.Execute(session, cancellationToken);
@@ -73,7 +71,7 @@ namespace PoGo.NecroBot.Logic.Tasks
             var mapObjects = await session.Client.Map.GetMapObjects();
 
             // Wasn't sure how to make this pretty. Edit as needed.
-            var pokeStops = mapObjects.MapCells.SelectMany(i => i.Forts)
+            var pokeStops = mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
                 .Where(
                     i =>
                         i.Type == FortType.Checkpoint &&

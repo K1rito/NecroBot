@@ -1,9 +1,7 @@
 ﻿using PoGo.NecroBot.Logic.Event;
 using PoGo.NecroBot.Logic.State;
-using System;
-using System.Collections.Generic;
+using PoGo.NecroBot.Logic.Utils;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PoGo.NecroBot.Logic.Tasks
@@ -12,6 +10,9 @@ namespace PoGo.NecroBot.Logic.Tasks
     {
         public static async Task Execute(ISession session)
         {
+            // Refresh inventory so that the player stats are fresh
+            await session.Inventory.RefreshCachedInventory();
+
             var inventory = await session.Inventory.GetItems();
 
             session.EventDispatcher.Send(
@@ -19,6 +20,8 @@ namespace PoGo.NecroBot.Logic.Tasks
                 {
                     Items = inventory.ToList()
                 });
+
+            DelayingUtils.Delay(session.LogicSettings.DelayBetweenPlayerActions, 0);
         }
     }
 }

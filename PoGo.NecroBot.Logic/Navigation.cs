@@ -1,7 +1,5 @@
 ﻿#region using directives
 
-#region using directives
-
 using System;
 using System.Globalization;
 using System.Threading;
@@ -13,10 +11,6 @@ using POGOProtos.Networking.Responses;
 
 #endregion
 
-// ReSharper disable RedundantAssignment
-
-#endregion
-
 namespace PoGo.NecroBot.Logic
 {
     public delegate void UpdatePositionDelegate(double lat, double lng);
@@ -25,6 +19,7 @@ namespace PoGo.NecroBot.Logic
     {
         private const double SpeedDownTo = 10/3.6;
         private readonly Client _client;
+
         public Navigation(Client client)
         {
             _client = client;
@@ -92,7 +87,6 @@ namespace PoGo.NecroBot.Logic
 
                     if (functionExecutedWhileWalking != null)
                         await functionExecutedWhileWalking(); // look for pokemon
-                    await Task.Delay(500, cancellationToken);
                 } while (LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30);
 
                 return result;
@@ -176,7 +170,6 @@ namespace PoGo.NecroBot.Logic
                 if (functionExecutedWhileWalking != null)
                     await functionExecutedWhileWalking(); // look for pokemon & hit stops
 
-                await Task.Delay(500, cancellationToken);
             } while (LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30);
 
             return result;
@@ -184,4 +177,6 @@ namespace PoGo.NecroBot.Logic
 
         public event UpdatePositionDelegate UpdatePositionEvent;
     }
+
+    
 }
